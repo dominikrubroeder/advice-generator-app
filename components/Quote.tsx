@@ -7,13 +7,11 @@ interface IQuote {
 }
 
 const Quote: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [quote, setQuote] = useState<IQuote | null>(null);
 
   const fetchQuote = () => {
-    setIsLoading(true);
-
     fetch('https://api.adviceslip.com/advice')
       .then((response) => {
         if (response.ok) {
@@ -54,7 +52,7 @@ const Quote: React.FC = () => {
 
   if (!isLoading && error) {
     return (
-      <div className="grid gap-2">
+      <div className="grid gap-2 animate-fadeUp">
         <h1 className="text-white">{error}</h1>
         <button
           className="rounded-full bg-app-primary-green-neon px-4 py-2"
@@ -67,7 +65,7 @@ const Quote: React.FC = () => {
   }
 
   return (
-    <div className="relative text-center bg-app-neutral-blue-grayish-dark rounded-xl max-w-[33.75rem] w-full p-8">
+    <div className="relative text-center bg-app-neutral-blue-grayish-dark rounded-xl max-w-[33.75rem] w-full p-8 animate-fadeUp">
       <header className="text-app-primary-green-neon uppercase text-xs tracking-widest mb-4">
         Advice #{!isLoading && quote?.id}
       </header>
@@ -85,7 +83,7 @@ const Quote: React.FC = () => {
       </div>
 
       <button
-        className="rounded-full h-16 w-16 flex items-center justify-center absolute -bottom-16 left-1/2 bg-app-primary-green-neon -translate-x-1/2 -translate-y-1/2"
+        className="rounded-full h-16 w-16 flex items-center justify-center absolute -bottom-16 left-1/2 bg-app-primary-green-neon -translate-x-1/2 -translate-y-1/2 transition-all hover:shadow-lg hover:shadow-app-primary-green-neon"
         onClick={fetchQuote}
       >
         t
