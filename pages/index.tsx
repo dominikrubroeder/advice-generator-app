@@ -11,15 +11,18 @@ const Home: NextPage = () => {
           name="description"
           content="Advice generator app | frontendmentor.io"
         />
-        <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="icon"
+          type="image/png"
+          href="/images/favicon-32x32.png"
+          sizes="32x32"
+        />
       </Head>
 
-      <main className="flex items-center justify-center min-h-screen">
+      <main className="relative flex items-center justify-center min-h-screen">
         <Quote />
-      </main>
 
-      <footer>
-        <p className="text-xs">
+        <p className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-app-neutral-blue-grayish px-4 w-full text-center">
           Frontend challenge by{' '}
           <a
             href="https://www.frontendmentor.io/challenges/advice-generator-app-QdUG-13db"
@@ -30,7 +33,7 @@ const Home: NextPage = () => {
           </a>
           , done by Dominik Rubröder
         </p>
-      </footer>
+      </main>
     </div>
   );
 };

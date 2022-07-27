@@ -26,22 +26,9 @@ module.exports = {
             visibility: 'visible',
           },
         },
-        scale: {
-          '0%': {
-            opacity: 0,
-            visibility: 'hidden',
-            transform: 'scale(0.8)',
-          },
-          '100%': {
-            opacity: 1,
-            visibility: 'visible',
-            transform: 'scale(1)',
-          },
-        },
       },
       animation: {
         fadeUp: 'fadeUp 1s ease-out forwards',
-        scale: 'scale .4s ease-out forwards',
       },
     },
   },

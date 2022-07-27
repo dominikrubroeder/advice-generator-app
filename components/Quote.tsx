@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import IconDice from './IconDice';
 import LoadingSpinner from './LoadingSpinner';
 
 interface IQuote {
@@ -12,6 +13,8 @@ const Quote: React.FC = () => {
   const [quote, setQuote] = useState<IQuote | null>(null);
 
   const fetchQuote = () => {
+    setIsLoading(true);
+
     fetch('https://api.adviceslip.com/advice')
       .then((response) => {
         if (response.ok) {
@@ -65,7 +68,7 @@ const Quote: React.FC = () => {
   }
 
   return (
-    <div className="relative text-center bg-app-neutral-blue-grayish-dark rounded-xl max-w-[33.75rem] w-full p-8 animate-fadeUp">
+    <div className="relative text-center bg-app-neutral-blue-grayish-dark rounded-xl max-w-[33.75rem] w-full p-8 m-4 sm:m-0 animate-fadeUp">
       <header className="text-app-primary-green-neon uppercase text-xs tracking-widest mb-4">
         Advice #{!isLoading && quote?.id}
       </header>
@@ -83,10 +86,10 @@ const Quote: React.FC = () => {
       </div>
 
       <button
-        className="rounded-full h-16 w-16 flex items-center justify-center absolute -bottom-16 left-1/2 bg-app-primary-green-neon -translate-x-1/2 -translate-y-1/2 transition-all hover:shadow-lg hover:shadow-app-primary-green-neon"
+        className="rounded-full w-16 h-16 flex items-center justify-center absolute -bottom-16 left-1/2 bg-app-primary-green-neon -translate-x-1/2 -translate-y-1/2 transition-all hover:shadow-lg hover:shadow-app-primary-green-neon hover:w-20 hover:h-20 hover:-bottom-20"
         onClick={fetchQuote}
       >
-        t
+        <IconDice />
       </button>
     </div>
   );
