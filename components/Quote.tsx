@@ -1,25 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import LoadingSpinner from './LoadingSpinner';
 
 interface IQuote {
   id: number;
   quote: string;
 }
 
-const QuoteData: IQuote = {
-  id: 117,
-  quote:
-    "It is easy to sit up and take notice, what's difficult is getting up and taking action.",
-};
-
 const Quote: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [quote, setQuote] = useState<IQuote | null>(null);
+
+  const fetchQuote = () => {
+    setIsLoading(true);
+
+    fetch('https://api.adviceslip.com/advice')
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        setError('Fetching advice went wrong');
+        throw new Error('Fetching advice went wrong');
+      })
+      .then((data) => {
+        const quote: IQuote = {
+          id: data.slip.id,
+          quote: data.slip.advice,
+        };
+
+        setQuote(quote);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    fetchQuote();
+  }, []);
+
+  if (isLoading)
+    return (
+      <button
+        type="button"
+        className="flex items-center justify-center bg-app-primary-green-neon text-white rounded-full p-4 animate-bounce"
+        disabled
+      >
+        <LoadingSpinner />
+      </button>
+    );
+
+  if (!isLoading && error) {
+    return (
+      <div className="grid gap-2">
+        <h1 className="text-white">{error}</h1>
+        <button
+          className="rounded-full bg-app-primary-green-neon px-4 py-2"
+          onClick={fetchQuote}
+        >
+          Try again
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative text-center bg-app-neutral-blue-grayish-dark rounded-xl max-w-[33.75rem] p-8">
+    <div className="relative text-center bg-app-neutral-blue-grayish-dark rounded-xl max-w-[33.75rem] w-full p-8">
       <header className="text-app-primary-green-neon uppercase text-xs tracking-widest mb-4">
-        Advice #{QuoteData.id}
+        Advice #{!isLoading && quote?.id}
       </header>
 
       <h1 className="text-white font-bold text-[1.75rem]">
-        &ldquo;{QuoteData.quote}&rdquo;
+        &ldquo;{!isLoading && quote?.quote}&rdquo;
       </h1>
 
       <div className="relative my-10">
@@ -30,7 +84,10 @@ const Quote: React.FC = () => {
         </div>
       </div>
 
-      <button className="rounded-full h-16 w-16 flex items-center justify-center absolute -bottom-16 left-1/2 bg-app-primary-green-neon -translate-x-1/2 -translate-y-1/2">
+      <button
+        className="rounded-full h-16 w-16 flex items-center justify-center absolute -bottom-16 left-1/2 bg-app-primary-green-neon -translate-x-1/2 -translate-y-1/2"
+        onClick={fetchQuote}
+      >
         t
       </button>
     </div>
